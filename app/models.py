@@ -18,6 +18,7 @@ association_table_user_sport = db.Table('user_sport', db.Model.metadata,
 
 
 class User(UserMixin, db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -27,6 +28,7 @@ class User(UserMixin, db.Model):
     events = db.relationship('Event', backref='user')
     sports = db.relationship("Sport",
                     secondary=association_table_user_sport)
+
     def __repr__(self):
 
         return '<User {}>'.format(self.username)
@@ -39,6 +41,18 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.username
 
 
 class Sport(db.Model):
@@ -74,4 +88,4 @@ class Event(db.Model):
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.query.filter_by(username=id).first()
