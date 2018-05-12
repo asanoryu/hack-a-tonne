@@ -161,6 +161,8 @@ class ChallengeEndpoint(Resource):
             return {'error' : 'no such sport'}
 
         match = Match(challenger_id=current_user.id, defender_id=defender.id, sport_id=sport.id)
+        db.session.add(match)
+        db.session.commit()
         return {'message' : 'success'}
 
 class SuggestMatch(Resource):
