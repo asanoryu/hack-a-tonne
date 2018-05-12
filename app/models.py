@@ -89,6 +89,7 @@ class Match(db.Model):
     sport_id = db.Column(db.Integer, db.ForeignKey(Sport.id), primary_key=True, nullable=False)
     shown = db.Column(db.Boolean, nullable=False, default=False)
     accepted = db.Column(db.Integer, nullable=False, default=0)
+    timest = db.Column(db.Date, index=True, nullable=False)
 
 @login.user_loader
 def load_user(id):
