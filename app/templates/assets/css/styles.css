@@ -1,0 +1,90 @@
+@keyframes animatedBackground {
+  0% {
+    background-position:0 0;
+  }
+  50% {
+    background-position:100% 0;
+  }
+  100% {
+    background-position:0 0;
+  }
+}
+
+.animate-area {
+  /*width:560px;*/
+  /*height:400px;*/
+  background-image:url("../../assets/img/mountain_bg.jpg");
+  background-position:0px 0px;
+  background-repeat:repeat-x;
+  animation:animatedBackground 45s linear infinite;
+  box-shadow:0 0 0;
+  transform:translate3d(0,0,0);
+}
+
+.col-md-8.offset-md-2 {
+  margin-left:0;
+}
+
+.card.side-button {
+  width:100%;
+  height:80px;
+  margin-bottom:5px;
+  cursor:pointer;
+  background:#000;
+  border-color:#fff;
+  color:#fff;
+  text-align:center;
+  line-height:80px;
+}
+
+.profile-button {
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  padding:0;
+}
+
+.button-holder {
+  margin:20px 0;
+  /*height:200px;*/
+  display:flex;
+  justify-content:space-between;
+}
+
+.profile-pic {
+  width:200px;
+  /*height:200px;*/
+  margin:auto;
+}
+
+.stats {
+  width:200px;
+}
+
+.progress {
+  margin-bottom:10px;
+}
+
+.profile-info i {
+  margin-top:20px;
+}
+
+.main-buttons {
+  text-align:center;
+}
+
+.notifications {
+  height:35px;
+  width:35px;
+  margin-right:20px;
+  line-height:35px;
+}
+
+.search-info {
+  /*height:100px;*/
+}
+
+.item-check {
+  margin-left:5px;
+}
+
