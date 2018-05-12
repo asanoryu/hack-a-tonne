@@ -152,15 +152,15 @@ class SuggestMatch(Resource):
             if sport in i.sports:
                 res.append(i.to_dict())
         print(res)
-class SuggestMatch(Resource):
+class FindSuggestion(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         print(current_user.city)
         city = current_user.city
-        parser.add_argument('sport_id', type=int)
+        parser.add_argument('sport', type=str)
 
         #print( parser.parse_args())
-        return self.suggestMatch(city, parser.parse_args().sport_id)
+        return self.suggestMatch(city, parser.parse_args().sport)
 
     def suggestMatch(self,city, sport):
         res=[]
@@ -169,7 +169,7 @@ class SuggestMatch(Resource):
             if i.id==current_user.id:
                 continue
             for j in i.sports:
-                if j.id==sport:
+                if j.name==sport:
                     res.append(i.to_dict())
                     break
         return res
