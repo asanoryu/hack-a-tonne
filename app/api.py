@@ -51,3 +51,8 @@ class CurrentUser(Resource):
         if not current_user.is_authenticated:
             return {'error' : 'not logged in'}
         return current_user.to_dict()
+
+class LogoutEndpoint(Resource):
+    def get(self):
+        logout_user(current_user)
+        return {'message' : 'logged out'}

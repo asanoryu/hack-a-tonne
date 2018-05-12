@@ -5,7 +5,7 @@ from app import login
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from geoalchemy2 import Geometry
+# from geoalchemy2 import Geometry
 
 association_table_event_invitations = db.Table('event_user_invitations', db.Model.metadata,
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
@@ -69,7 +69,7 @@ class Event(db.Model):
     status = db.Column(db.String(64), index=True, nullable=False)
     when = db.Column(db.Date, index=True,nullable=False)
     sport_id = db.Column(db.Integer, db.ForeignKey(Sport.id), primary_key=True, nullable=False)
-    #where = db.Column(Geometry('POINT'))
+    
     user_id =  db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True,
         nullable=False)
     users = db.relationship("User",
