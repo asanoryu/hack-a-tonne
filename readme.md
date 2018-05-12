@@ -6,6 +6,8 @@ Installation:
 
     Linux:
     sudo -s
+    apt install mysql-server
+    mysql -e "create database adimatch"
     export FLASK_APP=flask_barebones.py
 
     Windows
