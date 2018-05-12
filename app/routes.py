@@ -12,7 +12,6 @@ import json
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
     user = {'username': 'Gosho'}
     return render_template('index.html', title='FlaskBarebones Home', user=user)
@@ -50,6 +49,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/api/test', methods = ['GET'])
-def testEndpoint():
-        return jsonify({'test': 'test'})
+# @app.route('/api/test', methods = ['GET'])
+# def testEndpoint():
+#         return jsonify({'test': 'test'})
