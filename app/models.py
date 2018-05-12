@@ -5,7 +5,7 @@ from app import login
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-
+from geoalchemy2 import Geometry
 
 association_table_event_invitations = db.Table('event_user_invitations', db.Model.metadata,
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
@@ -64,19 +64,16 @@ class Sport(db.Model):
         return '<Sport {}>'.format(self.name)    
 
 class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
-    status = db.Column(db.String(64), index=True)
-    when = db.Column(db.Date, index=True)
-    sport_id = db.Column(db.Integer, db.ForeignKey(Sport.id), primary_key=True)
-    where_X = db.Column(db.Float,
-        nullable=False)
-    where_Y = db.Column(db.Float,
-        nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(64), index=True, unique=True, nullable=False)
+    status = db.Column(db.String(64), index=True, nullable=False)
+    when = db.Column(db.Date, index=True,nullable=False)
+    sport_id = db.Column(db.Integer, db.ForeignKey(Sport.id), primary_key=True, nullable=False)
+    #where = db.Column(Geometry('POINT'))
     user_id =  db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True,
         nullable=False)
-    users = children = db.relationship("User",
-                    secondary=association_table_event_invitations)
+    users = db.relationship("User",
+                    secondary=association_table_event_invitations,)
 
     def __repr__(self):
         return '<Event {}>'.format(self.name)    
