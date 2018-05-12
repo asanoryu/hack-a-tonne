@@ -2,6 +2,16 @@ from app import api, login, db
 from flask_restful import Resource, reqparse
 from app.models import User, Sport, association_table_user_sport
 from flask_login import current_user, login_user, logout_user,login_required
+import sqlalchemy
+from flask import request
+
+def arrayType(value, name):
+    full_json_data = request.get_json()
+    my_list = full_json_data[name]
+    if(not isinstance(my_list, (list))):
+        raise ValueError("The parameter " + name + " is not a valid array")
+    return my_list
+
 
 
 class TestEndpoint(Resource):
@@ -59,7 +69,8 @@ class LogoutEndpoint(Resource):
 
 
 class RegisterUserEndpoint(Resource):
-    super(RegisterUserEndpoint, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super(RegisterUserEndpoint, self).__init__()
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('username',
                                     type=str,
@@ -79,32 +90,42 @@ class RegisterUserEndpoint(Resource):
                                     help='No parameters provided',
                                     location='json')
         self.reqparse.add_argument('sports',
-                                    type=list,
+                                    type=arrayType,
                                     required=False,
                                     default="",
                                     location='json')
         self.reqparse.add_argument('city',
                                     type=str,
                                     location='json')
+        self.reqparse.add_argument('phone',
+                                    type=str,
+                                    location='json')
     def post(self):
         args = self.reqparse.parse_args()
-        user = User(username=args['username'],email=args['password'])
+        user = User(username=args['username'],email=args['email'])
         user.set_password(args['password'])
-        try:
-            user.city = args['city']
-        except KeyError:
-            user.city = None        
+        user.city = args.get('city', None)  
+        user.phone = args.get('phone', None)
+        db.session.add(user)
+        print(args['sports'])
         try:
             for _sport in args['sports']:
-                sport = Sport.query.filter_by(name=_sport)
+                print(_sport)
+                sport = Sport.query.filter_by(name=_sport).first()
                 if not sport:          
                     sport = Sport(name=_sport)
+                    db.session.add(sport)
+                db.session.flush()
                 statement = association_table_user_sport.insert().values(user_id=user.id, sport_id=sport.id)
                 db.session.execute(statement)
-                db.session.commit()
         except KeyError:
             pass
-        db.session.add(User)
-        db.session.commit()
+        try:
+            
+            db.session.commit()
+        except sqlalchemy.exc.IntegrityError as e:
+            db.session.rollback()
+            print(e)
+            return {'error' : 'user exists'}
 
-        return User.to_dict()
+        return user.to_dict()
