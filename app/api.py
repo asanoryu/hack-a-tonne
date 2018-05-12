@@ -133,3 +133,46 @@ class RegisterUserEndpoint(Resource):
             return {'error' : 'user exists'}
 
         return user.to_dict()
+
+
+class SuggestMatch(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        print(current_user)
+        city = current_user.city
+        parser.add_argument('sport_id', type=int)
+
+        print( parser.parse_args())
+        #return current_user.to_dict()
+
+    def suggestMatch(city, sport):
+        res=[]
+        from_city=neighUser.query.filter_by(city=city)
+        for i in from_city:
+            if sport in i.sports:
+                res.append(i.to_dict())
+        print(res)
+class SuggestMatch(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        print(current_user.city)
+        city = current_user.city
+        parser.add_argument('sport_id', type=int)
+
+        #print( parser.parse_args())
+        return self.suggestMatch(city, parser.parse_args().sport_id)
+
+    def suggestMatch(self,city, sport):
+        res=[]
+        from_city=User.query.filter_by(city=city)
+        for i in from_city:
+            if i.id==current_user.id:
+                continue
+            for j in i.sports:
+                if j.id==sport:
+                    res.append(i.to_dict())
+                    break
+        return res
+            #if sport in i.sports:
+            #    res.append(i.to_dict())
+        #print(res)
