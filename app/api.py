@@ -1,4 +1,4 @@
-from app import api
+from app import api, login
 from flask_restful import Resource, reqparse
 from app.models import User
 from flask_login import current_user, login_user, logout_user,login_required
@@ -40,7 +40,19 @@ class LoginEndpoint(Resource):
             user = User.query.filter_by(username=args['username']).first()
             if user is None or not user.check_password(args['password']):
                 return {'error' : 'Invalid username or password'}
-            login_user(user)
+            login_user(user, remember=True)
             return user.to_dict()
         except Exception as e:
             return {'error' : str(e)}
+
+class CurrentUser(Resource):
+    def get(self):
+        print(current_user)
+        if not current_user.is_authenticated:
+            return {'error' : 'not logged in'}
+        return current_user.to_dict()
+
+class LogoutEndpoint(Resource):
+    def get(self):
+        logout_user(current_user)
+        return {'message' : 'logged out'}
