@@ -5,6 +5,7 @@ Installation:
     pip3 install -r requirements.txt
 
     Linux:
+    sudo -s
     export FLASK_APP=flask_barebones.py
 
     Windows
