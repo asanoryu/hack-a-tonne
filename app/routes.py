@@ -1,17 +1,17 @@
-from flask import render_template
+from flask import render_template, jsonify
 from app import app, db
 from app.forms import LoginForm
 from flask import flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user,login_required
 from app.models import User
 from app.forms import RegistrationForm
+import json
 
 
 
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
     user = {'username': 'Gosho'}
     return render_template('index.html', title='FlaskBarebones Home', user=user)
@@ -48,3 +48,7 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+# @app.route('/api/test', methods = ['GET'])
+# def testEndpoint():
+#         return jsonify({'test': 'test'})
