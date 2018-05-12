@@ -14,3 +14,4 @@ login = LoginManager(app)
 
 
 from app import routes, models, errors
+db.create_all()
