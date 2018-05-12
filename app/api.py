@@ -100,12 +100,16 @@ class RegisterUserEndpoint(Resource):
         self.reqparse.add_argument('phone',
                                     type=str,
                                     location='json')
+        self.reqparse.add_argument('picture',
+                                    type=str,
+                                    location='json')
     def post(self):
         args = self.reqparse.parse_args()
         user = User(username=args['username'],email=args['email'])
         user.set_password(args['password'])
         user.city = args.get('city', None)  
         user.phone = args.get('phone', None)
+        user.picture = args.get('picture', None)
         db.session.add(user)
         print(args['sports'])
         try:
