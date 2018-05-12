@@ -1,6 +1,6 @@
 from app import api, login, db
 from flask_restful import Resource, reqparse
-from app.models import User, Sport, association_table_user_sport
+from app.models import User, Sport, association_table_user_sport, Match
 from flask_login import current_user, login_user, logout_user,login_required
 import sqlalchemy
 from flask import request
@@ -131,5 +131,34 @@ class RegisterUserEndpoint(Resource):
             db.session.rollback()
             print(e)
             return {'error' : 'user exists'}
-
         return user.to_dict()
+
+
+class ChallengeEndpoint(Resource):
+    def __init__(self, *args, **kwargs):
+        super(RegisterUserEndpoint, self).__init__()
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('defender_id',
+                                    type=int,
+                                    required=True,
+                                    help='No defender provided',
+                                    location='json')
+        self.reqparse.add_argument('sport',
+                                    type=str,
+                                    required=True,
+                                    default="",
+                                    help='No sport provided',
+                                    location='json')
+    
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        defender = User.query.filter_by(id=args['defender_id']).first()
+        if not defender:
+            return {'error' : 'no such defender'}
+        sport = Sport.query.filter_by(name=args['sport']).first()
+        if not sport:
+            return {'error' : 'no such sport'}
+
+        match = Match(challenger_id=current_user.id, defender_id=defender.id, sport_id=sport.id)
+        return {'message' : 'success'}
