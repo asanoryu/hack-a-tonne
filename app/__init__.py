@@ -16,6 +16,7 @@ login = LoginManager(app)
 
 
 from app import routes, models, errors
+
 # db.create_all()
 # # add_point_column_sql="ALTER TABLE `adimatch`.`event` DROP `where`;"
 # db.engine.execute(add_point_column_sql)
