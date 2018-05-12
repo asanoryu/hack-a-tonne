@@ -25,40 +25,9 @@
   margin-left:0;
 }
 
-.card.side-button {
-  width:100%;
-  height:80px;
-  margin-bottom:5px;
-  cursor:pointer;
-  background:#000;
-  border-color:#fff;
-  color:#fff;
-  text-align:center;
-  line-height:80px;
-}
-
-.profile-button {
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  padding:0;
-}
-
-.button-holder {
-  margin:20px 0;
-  /*height:200px;*/
-  display:flex;
-  justify-content:space-between;
-}
-
 .profile-pic {
   width:200px;
-  /*height:200px;*/
   margin:auto;
-}
-
-.stats {
-  width:200px;
 }
 
 .progress {
@@ -73,18 +42,71 @@
   text-align:center;
 }
 
-.notifications {
-  height:35px;
-  width:35px;
-  margin-right:20px;
-  line-height:35px;
+@keyframes animatedBackground {
+  0% {
+    background-position:0 0;
+  }
+  50% {
+    background-position:100% 0;
+  }
+  100% {
+    background-position:0 0;
+  }
 }
 
-.search-info {
-  /*height:100px;*/
+.card.side-button {
+  width:100%;
+  height:80px;
+  margin-bottom:5px;
+  cursor:pointer;
+  background:#000;
+  border-color:#fff;
+  color:#fff;
+  text-align:center;
+  line-height:80px;
+}
+
+.button-holder {
+  margin:20px 0;
+  /*height:200px;*/
+  display:flex;
+  justify-content:space-between;
 }
 
 .item-check {
   margin-left:5px;
 }
 
+.nav.nav-tabs {
+  margin-top:10px;
+}
+
+.col-md-8.offset-md-2 {
+  margin-left:0;
+}
+
+.profile-button {
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  padding:0;
+  background-image:url("../../assets/img/Generic_Placeholder_-_Profile.jpg");
+  background-size:contain;
+}
+
+.stats {
+  width:200px;
+  margin:auto;
+}
+
+.notifications {
+  height:35px;
+  width:35px;
+  margin-right:20px;
+  line-height:35px;
+  background-image:none;
+}
+
+.alert.alert-info {
+  margin-top:10px;
+}
