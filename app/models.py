@@ -5,6 +5,7 @@ from app import login
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+import datetime
 # from geoalchemy2 import Geometry
 
 association_table_event_invitations = db.Table('event_user_invitations', db.Model.metadata,
@@ -89,7 +90,7 @@ class Match(db.Model):
     sport_id = db.Column(db.Integer, db.ForeignKey(Sport.id), primary_key=True, nullable=False)
     shown = db.Column(db.Boolean, nullable=False, default=False)
     accepted = db.Column(db.Integer, nullable=False, default=0)
-    timest = db.Column(db.Date, index=True, nullable=False)
+    timest = db.Column(db.DateTime,default=datetime.datetime.utcnow, index=True, nullable=False)
 
 @login.user_loader
 def load_user(id):
