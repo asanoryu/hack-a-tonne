@@ -32,8 +32,7 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
     
     def to_dict(self):
-        return {'user' : self.username, 'email': self.email}
-
+        return {'user' : self.username, 'email': self.email, 'id': self.id}
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
