@@ -194,7 +194,14 @@ class FindSuggestion(Resource):
         return self.suggestMatch(city, parser.parse_args().sports)
 
     def suggestMatch(self, city, sports):
-        return User.query.filter(User.city == city, User.sports.in_(sports))
+        sports = Sport.query.filter(Sport.name.in_(sports)).all()
+        sids = [s.id for s in sports]
+        print(sids)
+        
+        sug = User.query.filter(User.city == city, Sport.id.in_(sids)).all()
+        print(sug)
+        return [u.to_dict() for u in sug]
+        # return User.query.filter(User.city == city, User.sports.in_(sports)).all()
 
 
 
