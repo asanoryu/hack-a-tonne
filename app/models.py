@@ -6,7 +6,6 @@ from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
-# from geoalchemy2 import Geometry
 
 association_table_event_invitations = db.Table('event_user_invitations', db.Model.metadata,
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
@@ -67,6 +66,9 @@ class Sport(db.Model):
     
     def __repr__(self):
         return '<Sport {}>'.format(self.name)    
+    def to_dict(self):
+        return {'id' : self.id, 'name': self.name, 'description': self.description}
+
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)

@@ -206,3 +206,10 @@ class FindSuggestion(Resource):
             #if sport in i.sports:
             #    res.append(i.to_dict())
         #print(res)
+
+class GetSports(Resource):
+    def get(self):
+
+        sports = Sport.query.all()
+        sports = [i.to_dict() for i in sports]
+        return sports
