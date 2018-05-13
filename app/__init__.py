@@ -8,6 +8,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__, static_url_path='/static')
+app.debug = True
 CORS(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
