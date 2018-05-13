@@ -33,7 +33,8 @@ def seed():
     CITIES = ['Sofia', 'Plovdiv', 'Varna']
     for COUNTER in range(20):
         random.shuffle(SPORTS)
-        user = User(username=fake.name().replace(" ", ""),email=fake.name().replace(" ", "_")+"@adidas.com")
+        name = fake.name()
+        user = User(username=name.replace(" ", ""),email=name.replace(" ", "_")+"@adidas.com")
         user.set_password("12345678")
         user.city = CITIES[int(random.random()*len(CITIES))]
         user.phone = fake.phone_number()
