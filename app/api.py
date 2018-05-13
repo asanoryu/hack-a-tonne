@@ -136,7 +136,7 @@ class RegisterUserEndpoint(Resource):
 
 class ChallengeEndpoint(Resource):
     def __init__(self, *args, **kwargs):
-        super(RegisterUserEndpoint, self).__init__()
+        super(ChallengeEndpoint, self).__init__()
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('defender_id',
                                     type=int,
