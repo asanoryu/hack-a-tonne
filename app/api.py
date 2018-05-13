@@ -195,13 +195,27 @@ class FindSuggestion(Resource):
 
     def suggestMatch(self, city, sports):
         sports = Sport.query.filter(Sport.name.in_(sports)).all()
-        sids = [s.id for s in sports]
-        print(sids)
-        
-        sug = User.query.filter(User.city == city, Sport.id.in_(sids)).all()
-        print(sug)
-        return [u.to_dict() for u in sug]
-        # return User.query.filter(User.city == city, User.sports.in_(sports)).all()
+        sport_names = ''
+        for sport in sports:
+            sport_names += '"{}",'.format(sport.name)
+        sport_names = sport_names[:-1]
+        print(sport_names)
+        result = db.engine.execute("SELECT * FROM `user` u INNER JOIN  user_sport us ON us.user_id =u.id \
+INNER JOIN sport s ON s.id = us.sport_id WHERE s.name IN ({sports}) AND u.city = '{city}';".format(city=city,sports=sport_names))
+        matches = []
+        for res in result:
+            print(res[0])
+            if res[0] == current_user.id:
+                continue
+            user = User.query.filter(User.id == res[0]).first()
+            sports = [s.name for s in user.sports]
+            tmp = {'id' : res[0], 'username' : res[1], 'email' : res[2], 'city': res[5], 'sports' : sports}
+            matches.append(tmp)
+        return matches
+        # sug = User.query.filter(User.city == city, Sport.id.in_(sids)).all()
+        # print(sug)
+        # return [u.to_dict() for u in sug]
+        # # return User.query.filter(User.city == city, User.sports.in_(sports)).all()
 
 
 
