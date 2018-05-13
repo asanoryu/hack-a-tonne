@@ -187,22 +187,11 @@ class FindSuggestion(Resource):
         parser = reqparse.RequestParser()
         print(current_user.city)
         city = current_user.city
-        parser.add_argument('sport', type=str)
+        parser.add_argument('sports', type=arrayType)
 
         #print( parser.parse_args())
-        return self.suggestMatch(city, parser.parse_args().sport)
+        return self.suggestMatch(city, parser.parse_args().sports)
 
-    def suggestMatch(self,city, sport):
-        res=[]
-        from_city=User.query.filter_by(city=city)
-        for i in from_city:
-            if i.id==current_user.id:
-                continue
-            for j in i.sports:
-                if j.name==sport:
-                    res.append(i.to_dict())
-                    break
-        return res
-            #if sport in i.sports:
-            #    res.append(i.to_dict())
-        #print(res)
+    def suggestMatch(self, city, sports):
+        return User.query.filter(User.city == city, User.sports.in_(sports))
+
