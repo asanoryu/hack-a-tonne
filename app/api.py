@@ -182,6 +182,7 @@ class SuggestMatch(Resource):
             if sport in i.sports:
                 res.append(i.to_dict())
         print(res)
+
 class FindSuggestion(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -206,3 +207,28 @@ class FindSuggestion(Resource):
             #if sport in i.sports:
             #    res.append(i.to_dict())
         #print(res)
+
+
+
+class NotificationEndpoint(Resource):
+    def get(self):
+        notifications = []
+        defender_matches = Match.query.filter_by(defender_id = current_user.id, shown=False).order_by(Match.timest).all()
+        print(defender_matches)
+        if defender_matches:
+            for match in defender_matches:
+                notif = {'type' : 'challenge', 'from' : match.challenger_id.username, 'sport' : match.sport_id.name, 'timestamp': match.timest}
+                match.shown = True
+                db.session.commit()
+                notifications.append(notif)
+
+        challenges = Match.query.filter(Match.challenger_id == current_user.id, Match.accepted != 0).all()
+        if challenges:
+            for match in challenges:
+                notif = {'type' : 'response', 'from' : match.defender_id.name, 'sport' : match.sport_id.name, 'timestamp': match.timest}
+                if match.accepted == 1:
+                    notif['response'] = 'accepted'
+                elif match.accepted == 2:
+                    notif['response'] = 'declined'
+                notifications.append(notif)
+        return sorted(notifications, key=lambda k: k['timestamp']) 

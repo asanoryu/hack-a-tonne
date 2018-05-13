@@ -4,7 +4,8 @@ from app.api import TestEndpoint, UserProfile, LoginEndpoint, SuggestMatch
 from app.api import CurrentUser, LogoutEndpoint, RegisterUserEndpoint
 from app.api import FindSuggestion
 from app.api import ChallengeEndpoint
-
+from app.api import NotificationEndpoint
+import click
 
 api = Api(app)
 api.add_resource(TestEndpoint, '/api/test')
@@ -16,3 +17,9 @@ api.add_resource(CurrentUser, '/api/current_user')
 api.add_resource(ChallengeEndpoint, '/api/challenge')
 api.add_resource(SuggestMatch, '/api/suggest')
 api.add_resource(FindSuggestion, '/api/suggestion')
+api.add_resource(NotificationEndpoint, '/api/notifications')
+
+
+@app.cli.command()
+def seed():
+    print('seeding')
